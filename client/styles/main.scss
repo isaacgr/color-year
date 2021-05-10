@@ -1,0 +1,88 @@
+/*
+ ===============================
+ Variables
+ ===============================
+ */
+
+/*
+ ===============================
+ Custom Syles
+ ===============================
+ */
+
+html,
+body {
+  background-image: linear-gradient(#062c7f, #7fb0ff);
+  margin: 0;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+.container {
+  width: 95%;
+  height: auto;
+  margin: 1rem auto;
+  padding-bottom: 1rem;
+}
+
+a {
+  text-decoration: none;
+  width: 50%;
+}
+
+a:focus {
+  text-decoration: none;
+  width: 50%;
+}
+
+.content-block {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.content-block--flex {
+  display: flex;
+  justify-content: center;
+}
+
+.content-block--flex > * {
+  margin: 0 1rem;
+}
+
+/*
+ ===============================
+ Title
+ ===============================
+ */
+
+.title {
+  color: #f3f4f7;
+  text-align: center;
+  font: 300 40px "Lato", "Open Sans", "Helvetica Nue", sans-serif;
+  font-weight: bold;
+  letter-spacing: 1px;
+  text-transform: capitalize;
+  height: auto;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.sub-title {
+  color: #95a5a6;
+  text-align: center;
+  font: 300 15px "Lato", "Open Sans", "Helvetica Nue", sans-serif;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin: 1rem auto;
+}
+
+/*
+ ===============================
+ Error
+ ===============================
+ */
+
+#error {
+  color: #c0392b;
+}
