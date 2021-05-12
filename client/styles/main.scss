@@ -28,12 +28,12 @@ body {
 
 a {
   text-decoration: none;
-  width: 50%;
+  width: auto;
 }
 
 a:focus {
   text-decoration: none;
-  width: 50%;
+  width: auto;
 }
 
 .content-block {
@@ -79,13 +79,33 @@ a:focus {
 
 /*
  ===============================
+ Card
+ ===============================
+ */
+
+.card {
+  padding: 1rem;
+}
+
+/*
+ ===============================
+ Icons
+ ===============================
+ */
+
+.icon {
+  padding: 0 1rem;
+}
+
+/*
+ ===============================
  Login
  ===============================
  */
 
 .login-container {
-  width: 400px;
-  margin-top: 50px;
+  width: 25rem;
+  margin-top: 2rem;
   text-align: center;
 }
 
