@@ -1,6 +1,7 @@
 const passport = require("passport");
 const express = require("express");
 const router = express.Router();
+const { ensureLoggedIn } = require("connect-ensure-login");
 
 // @desc Auth with google
 // @route GET /auth/google
@@ -19,8 +20,8 @@ router.get(
   }
 );
 
-router.get("/user", (request, response) => {
-  response.send(request.user);
+router.get("/user", ensureLoggedIn("/"), (request, response) => {
+  response.send({ authenticated: true });
 });
 
 module.exports = router;

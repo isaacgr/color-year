@@ -1,11 +1,10 @@
-const { ensureLoggedIn } = require("connect-ensure-login");
 const express = require("express");
 const router = express.Router();
 
 router.get("/logout", (request, response) => {
-  request.session = null;
-  request.logout();
-  response.redirect("/");
+  request.session.destroy((err) => {
+    response.redirect("/"); //Inside a callback… bulletproof!
+  });
 });
 
 module.exports = router;
