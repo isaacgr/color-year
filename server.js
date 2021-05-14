@@ -7,18 +7,23 @@ const cors = require("cors");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
+const { PrismaClient } = require("@prisma/client");
 
 require("./config/passport");
 
 const publicPath = path.join(__dirname, "public");
 const PORT = process.env.PORT || 5000;
 const app = express();
+const prisma = new PrismaClient();
 
 // GraphqlServer
 const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: {
     Query
+  },
+  context: {
+    prisma
   }
 });
 
@@ -32,7 +37,7 @@ app.use(
     resave: false,
     saveUninitialized: true,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000
+      maxAge: 1 * 60 * 60 * 1000
     }
   })
 );
@@ -44,6 +49,7 @@ app.use(passport.session());
 // Routes
 app.use("/", require("./routes/index"));
 app.use("/auth", require("./routes/auth"));
+server.applyMiddleware({ app, path: "/graphql" });
 
 app.use(express.static(publicPath));
 
@@ -51,5 +57,4 @@ app.get("*", (request, response) => {
   response.sendFile(path.join(publicPath, "index.html"));
 });
 
-server.applyMiddleware({ app });
 app.listen(PORT, () => console.log(`Server listening on ${PORT}`));

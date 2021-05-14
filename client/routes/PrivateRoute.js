@@ -4,15 +4,15 @@ import UserProvider from "../contexts/UserProvider";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
   const [loadingComplete, auth] = useContext(UserProvider.context);
-  return loadingComplete ? (
-    <Route
-      {...rest}
-      component={() =>
-        auth.authenticated ? <Component /> : <Redirect to="/" />
-      }
-    />
-  ) : (
-    <p>Loading...</p>
+  return (
+    loadingComplete && (
+      <Route
+        {...rest}
+        component={() =>
+          auth.authenticated ? <Component /> : <Redirect to="/" />
+        }
+      />
+    )
   );
 };
 
