@@ -11,7 +11,7 @@ const { PrismaClient } = require("@prisma/client");
 
 require("./config/passport");
 
-const publicPath = path.join(__dirname, "public");
+const publicPath = path.join(__dirname, "..", "public");
 const PORT = process.env.PORT || 5000;
 const app = express();
 const prisma = new PrismaClient();

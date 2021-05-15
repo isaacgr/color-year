@@ -5,8 +5,8 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "server": "node server.js",
-    "dev": "concurrently \"npm run server\" \"npm run watch\"",
+    "server": "node server/server.js",
+    "dev": "concurrently \"nodemon server/server.js\" \"npm run watch\"",
     "build": "webpack --mode=production --node-env=production",
     "build:dev": "webpack --mode=development",
     "build:prod": "webpack --mode=production --node-env=production",

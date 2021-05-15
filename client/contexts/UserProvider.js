@@ -14,7 +14,10 @@ const UserProvider = ({ children }) => {
         setAuthenticated({ authenticated: false });
       } else {
         const json = await res.json();
-        setAuthenticated({ authenticated: json.authenticated });
+        setAuthenticated({
+          authenticated: json.authenticated,
+          userId: json.userId
+        });
       }
     } catch (e) {
       console.log(e);

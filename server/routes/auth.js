@@ -2,6 +2,9 @@ const passport = require("passport");
 const express = require("express");
 const router = express.Router();
 const { ensureLoggedIn } = require("connect-ensure-login");
+const { PrismaClient } = require("@prisma/client");
+
+const prisma = new PrismaClient();
 
 // @desc Auth with google
 // @route GET /auth/google
@@ -20,8 +23,16 @@ router.get(
   }
 );
 
-router.get("/user", ensureLoggedIn("/"), (request, response) => {
-  response.send({ authenticated: true });
+router.get("/user", ensureLoggedIn("/"), async (request, response) => {
+  const userId = await prisma.user.findUnique({
+    where: {
+      external_id: request.user
+    },
+    select: {
+      id: true
+    }
+  });
+  response.send({ authenticated: true, userId: userId.id });
 });
 
 module.exports = router;
