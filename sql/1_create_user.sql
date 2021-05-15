@@ -1,7 +1,7 @@
 -- Install uuid-ossp module to access uuidv4 generator function
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";  
 
-CREATE TABLE "user" (
+CREATE TABLE IF NOT EXISTS "user" (
     pk serial PRIMARY KEY NOT NULL,
     id uuid UNIQUE NOT NULL DEFAULT uuid_generate_v4(), -- this should be the key that the front end uses
 

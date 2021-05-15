@@ -1,12 +1,16 @@
 require("dotenv").config();
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
-const { Query } = require("./graphql/resolvers/Query");
-const typeDefs = require("./graphql/schema");
 const cors = require("cors");
 const path = require("path");
 const passport = require("passport");
 const session = require("express-session");
+const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
+
+const { Query } = require("./graphql/resolvers/Query");
+const User = require("./graphql/resolvers/User");
+const typeDefs = require("./graphql/schema");
+
 const { PrismaClient } = require("@prisma/client");
 
 require("./config/passport");
@@ -20,7 +24,8 @@ const prisma = new PrismaClient();
 const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: {
-    Query
+    Query,
+    User
   },
   context: {
     prisma
@@ -38,7 +43,12 @@ app.use(
     saveUninitialized: true,
     cookie: {
       maxAge: 1 * 60 * 60 * 1000
-    }
+    },
+    store: new PrismaSessionStore(prisma, {
+      checkPeriod: 2 * 60 * 1000, //ms
+      dbRecordIdIsSessionId: true,
+      dbRecordIdFunction: undefined
+    })
   })
 );
 

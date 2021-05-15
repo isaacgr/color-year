@@ -1,4 +1,4 @@
-CREATE TABLE "palette" (
+CREATE TABLE IF NOT EXISTS "palette" (
   id serial PRIMARY KEY NOT NULL,
 
   joy varchar(255) NOT NULL,

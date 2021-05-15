@@ -36,11 +36,11 @@ const getUser = async (data) => {
       }
     });
   } catch {
-    throw new NonExistentUserError(data.id);
+    throw new UserNotFoundError(data.id);
   }
 
   if (!userExists) {
-    throw new NonExistentUserError(data.id);
+    throw new UserNotFoundError(data.id);
   } else {
     return await prisma.user.findUnique({
       where: {

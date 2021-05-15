@@ -37,3 +37,10 @@ model palette {
   user_id      String @db.Uuid
   user         user   @relation(fields: [user_id], references: [id])
 }
+
+model session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt DateTime @db.Timestamp(6)
+}

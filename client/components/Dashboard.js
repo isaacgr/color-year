@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
+import Palette from "./Palette";
 
 // check if user has setup palette
 // if so, load the home page
@@ -37,8 +38,6 @@ export default function Dashboard({ userId }) {
       <h1>Dashboard</h1>
     </div>
   ) : (
-    <div>
-      <h1>Palette Setup</h1>
-    </div>
+    <Palette userId={userId} />
   );
 }
