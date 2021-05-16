@@ -59,9 +59,9 @@ a:focus {
 .title {
   color: #95a5a6;
   text-align: center;
-  font: 300 40px "Lato", "Open Sans", "Helvetica Nue", sans-serif;
+  font: 300 40px "Roboto", "Open Sans", "Helvetica Nue", sans-serif;
   font-weight: bold;
-  letter-spacing: 1px;
+  letter-spacing: 2px;
   text-transform: capitalize;
   height: auto;
   margin-top: 0;
@@ -71,10 +71,78 @@ a:focus {
 .sub-title {
   color: #95a5a6;
   text-align: center;
-  font: 300 15px "Lato", "Open Sans", "Helvetica Nue", sans-serif;
+  font: 300 15px "Roboto", "Open Sans", "Helvetica Nue", sans-serif;
   letter-spacing: 2px;
   text-transform: uppercase;
   margin: 1rem auto;
+}
+
+/*
+ ===============================
+ Palette
+ ===============================
+ */
+
+.palette {
+  display: flex;
+  flex-direction: column;
+
+  &--names {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    > * {
+      width: 20%;
+    }
+  }
+}
+
+.color-selector {
+  display: flex;
+  flex-direction: row;
+  // position: absolute;
+  // left: 20px;
+  // top: 50%;
+  // transform: translateX(-50%);
+}
+
+.color-input {
+  margin: 1rem;
+}
+
+$colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
+
+[type="radio"] {
+  display: none;
+
+  &:checked + label:before {
+    box-shadow: 0px 0px 0px 2px #f9f9f9, 0 0 0 4px #cacaca;
+  }
+}
+
+label {
+  display: inline-flex;
+  align-items: center;
+  margin: 10px 0px;
+  padding: 0 0 0 30px;
+  cursor: pointer;
+  font-size: 0.7em;
+
+  &:before {
+    display: inline-block;
+    content: "";
+    background: var(--c-bg);
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+}
+
+@each $item in $colors {
+  label[for="#{$item}"] {
+    --c-bg: var(--#{$item});
+  }
 }
 
 /*
