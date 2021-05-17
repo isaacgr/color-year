@@ -19,23 +19,23 @@ model user {
   external_id   String    @unique @db.VarChar(64)
   created_at    DateTime? @default(now()) @db.Timestamp(6)
   palette_set   Boolean   @default(false)
-  palette       palette[]
+  palette       palette?
 }
 
 model palette {
-  id           Int    @id @default(autoincrement())
-  joy          String @db.VarChar(255)
-  sadness      String @db.VarChar(255)
-  anger        String @db.VarChar(255)
-  fear         String @db.VarChar(255)
-  trust        String @db.VarChar(255)
-  jealous      String @db.VarChar(255)
-  surprise     String @db.VarChar(255)
-  anticipation String @db.VarChar(255)
-  spiritual    String @db.VarChar(255)
-  neutral      String @db.VarChar(255)
-  user_id      String @db.Uuid
-  user         user   @relation(fields: [user_id], references: [id])
+  id           Int     @id @default(autoincrement())
+  joy          String? @db.VarChar(255)
+  sadness      String? @db.VarChar(255)
+  anger        String? @db.VarChar(255)
+  fear         String? @db.VarChar(255)
+  trust        String? @db.VarChar(255)
+  jealous      String? @db.VarChar(255)
+  surprise     String? @db.VarChar(255)
+  anticipation String? @db.VarChar(255)
+  spiritual    String? @db.VarChar(255)
+  neutral      String? @db.VarChar(255)
+  user_id      String  @unique @db.Uuid
+  user         user    @relation(fields: [user_id], references: [id])
 }
 
 model session {

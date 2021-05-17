@@ -3,6 +3,7 @@ const { gql } = require("apollo-server-express");
 const typeDefs = gql`
   type Query {
     user(id: ID!): User!
+    palette(userId: ID!): Palette
   }
 
   type User {
@@ -12,16 +13,16 @@ const typeDefs = gql`
   }
 
   type Palette {
-    joy: String!
-    sadness: String!
-    anger: String!
-    fear: String!
-    trust: String!
-    jealous: String!
-    surprise: String!
-    anticipation: String!
-    spiritual: String!
-    neutral: String!
+    joy: String
+    sadness: String
+    anger: String
+    fear: String
+    trust: String
+    jealous: String
+    surprise: String
+    anticipation: String
+    spiritual: String
+    neutral: String
   }
 `;
 

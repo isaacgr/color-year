@@ -82,6 +82,7 @@ a:focus {
  Palette
  ===============================
  */
+$colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
 
 .palette {
   display: flex;
@@ -95,22 +96,25 @@ a:focus {
       width: 20%;
     }
   }
+
+  &--feeling-btn {
+    &:not(:last-child) {
+      margin-bottom: 1rem;
+    }
+    background-color: var(--c-bg) !important;
+    border-color: var(--c-bg) !important;
+  }
 }
 
 .color-selector {
   display: flex;
   flex-direction: row;
-  // position: absolute;
-  // left: 20px;
-  // top: 50%;
-  // transform: translateX(-50%);
+  justify-content: center;
 }
 
 .color-input {
   margin: 1rem;
 }
-
-$colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
 
 [type="radio"] {
   display: none;
@@ -132,8 +136,8 @@ label {
     display: inline-block;
     content: "";
     background: var(--c-bg);
-    width: 20px;
-    height: 20px;
+    width: 4rem;
+    height: 4rem;
     border-radius: 50%;
     margin-right: 10px;
   }
@@ -143,6 +147,19 @@ label {
   label[for="#{$item}"] {
     --c-bg: var(--#{$item});
   }
+}
+
+/*
+ ===============================
+ SVG images
+ ===============================
+ */
+
+.illustration {
+  --c-accent: #ec3667;
+  --c-dark: #3f3d56;
+  --c-light: #cbcdda;
+  --c-skin: #ffb9b9;
 }
 
 /*

@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { NonExistentUserError, InvalidUserIdError } = require("../types/error");
+const { UserNotFoundError, InvalidUserIdError } = require("../types/error");
 
 const prisma = new PrismaClient();
 

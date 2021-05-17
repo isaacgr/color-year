@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useReducer, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
+import FeelingJoy from "../svg/components/FeelingJoy";
 
-const PALETTE_SCHEMA_QUERY = gql`
-  query {
+const PALETTE_QUERY = gql`
+  query PaletteQuery($userId: ID!) {
     __schema {
       types {
         name
@@ -10,6 +11,18 @@ const PALETTE_SCHEMA_QUERY = gql`
           name
         }
       }
+    }
+    palette(userId: $userId) {
+      joy
+      sadness
+      anger
+      fear
+      trust
+      jealous
+      surprise
+      anticipation
+      spiritual
+      neutral
     }
   }
 `;
@@ -25,12 +38,65 @@ const colors = {
   "--black": "#2b2b28"
 };
 
+const initialState = {
+  selectedFeeling: null,
+  selectedColor: null,
+  feelingToColor: {}
+};
+
+const reducer = (state, action) => {
+  switch (action.type) {
+    case "feelingSelected":
+      return {
+        ...state,
+        selectedFeeling: action.value
+        // feelingToColor: {
+        //   ...state.feelingToColor,
+        //   [action.value]: state.selectedColor
+        // }
+      };
+    case "colorSelected":
+      return {
+        ...state,
+        selectedColor: action.value,
+        feelingToColor: {
+          ...state.feelingToColor,~
+          [state.selectedFeeling]: action.value
+        }
+      };
+    case "setPalette":
+      return {
+        ...state,
+        feelingToColor: {
+          ...state.feelingToColor,
+          [action.key]: action.value
+        }
+      };
+    default:
+      throw new Error();
+  }
+};
+
+const feelingSelected = (name) => {
+  return { type: "feelingSelected", value: name };
+};
+
+const colorSelected = (color) => {
+  return { type: "colorSelected", value: color };
+};
+
+const setPalette = (feeling, color) => {
+  return { type: "setPalette", key: feeling, value: color };
+};
+
 // Present the user with the palette selector
 // user must choose all colors, then submit to set the palette
 // redirect to /home after
 export default function Palette({ userId }) {
-  const { loading, error, data } = useQuery(PALETTE_SCHEMA_QUERY, {
-    variables: { id: userId },
+  const [state, dispatch] = useReducer(reducer, initialState);
+
+  const { loading, error, data } = useQuery(PALETTE_QUERY, {
+    variables: { userId: userId },
     fetchPolicy: "no-cache"
   });
   if (loading) return <h2 className="sub-title">Loading...</h2>;
@@ -47,6 +113,9 @@ export default function Palette({ userId }) {
       </h2>
     );
   }
+  // for (const [key, value] of Object.entries(data.palette)) {
+  //   dispatch(setPalette(key, value));
+  // }
   return (
     <div className="container">
       <h1 className="title">Build Your Palette</h1>
@@ -55,16 +124,33 @@ export default function Palette({ userId }) {
       </p>
       <div className="palette">
         <div className="palette--names">
-          <div className="card">
-            {/* {data.__schema.types.map((field) => {
-            if (field.name === "Palette") {
-              return field.fields.map((fieldOptions) => {
-                return (
-
-                );
-              });
-            }
-          })} */}
+          <div className="card feeling-selector" style={colors}>
+            {data.__schema.types.map((field) => {
+              if (field.name === "Palette") {
+                return field.fields.map((fieldOptions) => {
+                  return (
+                    <button
+                      key={fieldOptions.name}
+                      style={{
+                        "--c-bg": `var(--${
+                          state.feelingToColor[fieldOptions.name] || "black"
+                        })`
+                      }}
+                      className={`btn btn-lg palette--feeling-btn ${
+                        state.selectedFeeling === fieldOptions.name
+                          ? "btn-secondary active"
+                          : "btn-secondary"
+                      }`}
+                      onClick={() => {
+                        dispatch(feelingSelected(fieldOptions.name));
+                      }}
+                    >
+                      {fieldOptions.name.toUpperCase()}
+                    </button>
+                  );
+                });
+              }
+            })}
           </div>
         </div>
         <div className="palette--colors">
@@ -73,12 +159,17 @@ export default function Palette({ userId }) {
               return (
                 <>
                   <input
+                    key={color}
                     type="radio"
                     id={color.split("--")[1]}
                     name="colors"
                     className="color-input"
+                    value={color.split("--")[1]}
+                    onClick={(e) => {
+                      dispatch(colorSelected(e.target.value));
+                    }}
                   ></input>
-                  <label for={color.split("--")[1]}></label>
+                  <label htmlFor={color.split("--")[1]}></label>
                 </>
               );
             })}

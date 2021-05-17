@@ -26,6 +26,20 @@ class PaletteNotFoundError extends Error {
   }
 }
 
+class CreatePaletteError extends Error {
+  constructor(id, ...params) {
+    super(...params);
+    // Maintains proper stack trace for where our error was thrown (only available on V8)
+    if (Error.captureStackTrace) {
+      Error.captureStackTrace(this, CreatePaletteError);
+    }
+    this.name = "CreatePaletteError";
+    this.id = id;
+    this.message = `Unable to create palette for user. ID [${this.id}]. Error [${this.message}]`;
+    this.date = new Date();
+  }
+}
+
 class InvalidUserIdError extends Error {
   constructor(id, ...params) {
     super(...params);
@@ -43,5 +57,6 @@ class InvalidUserIdError extends Error {
 module.exports = {
   UserNotFoundError,
   InvalidUserIdError,
-  PaletteNotFoundError
+  PaletteNotFoundError,
+  CreatePaletteError
 };
