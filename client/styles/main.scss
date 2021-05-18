@@ -4,6 +4,18 @@
  ===============================
  */
 
+// $colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
+$charcoal: #264653ff;
+$persian-green: #2a9d8fff;
+$orange-yellow-crayola: #e9c46aff;
+$sandy-brown: #f4a261ff;
+$burnt-sienna: #e76f51ff;
+
+$imperial-red: #e63946ff;
+$honeydew: #f1faeeff;
+$powder-blue: #a8dadcff;
+$celadon-blue: #457b9dff;
+$prussian-blue: #1d3557ff;
 /*
  ===============================
  Custom Syles
@@ -13,6 +25,7 @@
 html,
 body {
   // background-image: linear-gradient(#062c7f, #7fb0ff);
+  // background-color: $burnt-sienna;
   margin: 0;
   height: 100%;
   background-repeat: no-repeat;
@@ -82,7 +95,6 @@ a:focus {
  Palette
  ===============================
  */
-$colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
 
 .palette {
   display: flex;
@@ -90,7 +102,7 @@ $colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
 
   &--names {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
     > * {
       width: 20%;
@@ -103,6 +115,7 @@ $colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
     }
     background-color: var(--c-bg) !important;
     border-color: var(--c-bg) !important;
+    color: #f9f9f9;
   }
 }
 
@@ -110,6 +123,7 @@ $colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
   display: flex;
   flex-direction: row;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
 .color-input {
@@ -127,8 +141,7 @@ $colors: "blue", "orange", "pink", "red", "yellow", "green", "purple", "black";
 label {
   display: inline-flex;
   align-items: center;
-  margin: 10px 0px;
-  padding: 0 0 0 30px;
+  // padding: 0 0 0 30px;
   cursor: pointer;
   font-size: 0.7em;
 
@@ -136,18 +149,18 @@ label {
     display: inline-block;
     content: "";
     background: var(--c-bg);
-    width: 4rem;
-    height: 4rem;
-    border-radius: 50%;
-    margin-right: 10px;
+    width: 5rem;
+    height: 5rem;
+    border-radius: 10px;
+    margin-right: 5px;
   }
 }
 
-@each $item in $colors {
-  label[for="#{$item}"] {
-    --c-bg: var(--#{$item});
-  }
-}
+// @each $item in $colors {
+//   label[for="#{$item}"] {
+//     --c-bg: var(--#{$item});
+//   }
+// }
 
 /*
  ===============================

@@ -11,7 +11,12 @@ export default function Login() {
           <p className="lead">Track your mood with colors day to day</p>
         </div>
         <div className="section">
-          <a href="/auth/google" className="btn btn-danger darken-1">
+          <a
+            href="/auth/google"
+            className="btn btn-primary"
+            style={{ "background-color": "#dd4b39" }}
+            role="button"
+          >
             <i className="fab fa-google icon"></i>
             Login with Google
           </a>

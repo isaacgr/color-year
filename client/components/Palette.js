@@ -1,6 +1,7 @@
 import React, { useReducer, useEffect } from "react";
 import { useQuery, gql } from "@apollo/client";
-import FeelingJoy from "../svg/components/FeelingJoy";
+import PaletteNames from "./PaletteNames";
+import PaletteColors from "./PaletteColors";
 
 const PALETTE_QUERY = gql`
   query PaletteQuery($userId: ID!) {
@@ -27,17 +28,6 @@ const PALETTE_QUERY = gql`
   }
 `;
 
-const colors = {
-  "--blue": "#5588a3",
-  "--orange": "#f7931e",
-  "--pink": "#ec3667",
-  "--red": "#e2434b",
-  "--yellow": "#ffc60b",
-  "--green": "#c6e377",
-  "--purple": "#aa5c9f",
-  "--black": "#2b2b28"
-};
-
 const initialState = {
   selectedFeeling: null,
   selectedColor: null,
@@ -60,7 +50,7 @@ const reducer = (state, action) => {
         ...state,
         selectedColor: action.value,
         feelingToColor: {
-          ...state.feelingToColor,~
+          ...state.feelingToColor,
           [state.selectedFeeling]: action.value
         }
       };
@@ -77,14 +67,6 @@ const reducer = (state, action) => {
   }
 };
 
-const feelingSelected = (name) => {
-  return { type: "feelingSelected", value: name };
-};
-
-const colorSelected = (color) => {
-  return { type: "colorSelected", value: color };
-};
-
 const setPalette = (feeling, color) => {
   return { type: "setPalette", key: feeling, value: color };
 };
@@ -99,6 +81,14 @@ export default function Palette({ userId }) {
     variables: { userId: userId },
     fetchPolicy: "no-cache"
   });
+  useEffect(() => {
+    if (!data) {
+      return;
+    }
+    for (const [key, value] of Object.entries(data.palette)) {
+      dispatch(setPalette(key, value));
+    }
+  }, [data]);
   if (loading) return <h2 className="sub-title">Loading...</h2>;
   if (error) {
     console.log(error);
@@ -113,9 +103,6 @@ export default function Palette({ userId }) {
       </h2>
     );
   }
-  // for (const [key, value] of Object.entries(data.palette)) {
-  //   dispatch(setPalette(key, value));
-  // }
   return (
     <div className="container">
       <h1 className="title">Build Your Palette</h1>
@@ -123,58 +110,8 @@ export default function Palette({ userId }) {
         Choose which colors best represent the moods below
       </p>
       <div className="palette">
-        <div className="palette--names">
-          <div className="card feeling-selector" style={colors}>
-            {data.__schema.types.map((field) => {
-              if (field.name === "Palette") {
-                return field.fields.map((fieldOptions) => {
-                  return (
-                    <button
-                      key={fieldOptions.name}
-                      style={{
-                        "--c-bg": `var(--${
-                          state.feelingToColor[fieldOptions.name] || "black"
-                        })`
-                      }}
-                      className={`btn btn-lg palette--feeling-btn ${
-                        state.selectedFeeling === fieldOptions.name
-                          ? "btn-secondary active"
-                          : "btn-secondary"
-                      }`}
-                      onClick={() => {
-                        dispatch(feelingSelected(fieldOptions.name));
-                      }}
-                    >
-                      {fieldOptions.name.toUpperCase()}
-                    </button>
-                  );
-                });
-              }
-            })}
-          </div>
-        </div>
-        <div className="palette--colors">
-          <div className="card color-selector" style={colors}>
-            {Object.keys(colors).map((color) => {
-              return (
-                <>
-                  <input
-                    key={color}
-                    type="radio"
-                    id={color.split("--")[1]}
-                    name="colors"
-                    className="color-input"
-                    value={color.split("--")[1]}
-                    onClick={(e) => {
-                      dispatch(colorSelected(e.target.value));
-                    }}
-                  ></input>
-                  <label htmlFor={color.split("--")[1]}></label>
-                </>
-              );
-            })}
-          </div>
-        </div>
+        <PaletteNames data={data} state={state} dispatch={dispatch} />
+        <PaletteColors data={data} state={state} dispatch={dispatch} />
       </div>
     </div>
   );
