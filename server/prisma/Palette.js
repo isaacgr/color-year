@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { PaletteNotFoundError, InvalidUserIdError } = require("../types/error");
+const { PaletteNotFoundError, UpdatePaletteError } = require("../types/error");
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ const createPalette = async (data) => {
       }
     });
   } catch (e) {
-    throw new InvalidUserIdError(data.user_id);
+    throw new PaletteNotFoundError(data.user_id);
   }
   if (!paletteExists) {
     return await prisma.palette.create({
@@ -24,6 +24,30 @@ const createPalette = async (data) => {
         user_id: data.user_id
       }
     });
+  }
+};
+
+const updatePalette = async ({ userId, paletteData }) => {
+  try {
+    await prisma.palette.findUnique({
+      where: {
+        user_id: userId
+      }
+    });
+  } catch {
+    throw new PaletteNotFoundError(userId);
+  }
+  try {
+    return await prisma.palette.update({
+      where: {
+        user_id: userId
+      },
+      data: {
+        ...paletteData
+      }
+    });
+  } catch (e) {
+    throw UpdatePaletteError(userId, e.message);
   }
 };
 
@@ -39,4 +63,4 @@ const getPalette = async (userId) => {
   }
 };
 
-module.exports = { getPalette, createPalette };
+module.exports = { getPalette, createPalette, updatePalette };

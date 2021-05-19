@@ -6,10 +6,27 @@ const typeDefs = gql`
     palette(userId: ID!): Palette
   }
 
+  type Mutation {
+    setPalette(userId: ID!, paletteData: PaletteInput!): Palette!
+  }
+
   type User {
     id: ID!
     palette_set: Boolean!
     palette: Palette
+  }
+
+  input PaletteInput {
+    joy: String
+    sadness: String
+    anger: String
+    fear: String
+    trust: String
+    jealous: String
+    surprise: String
+    anticipation: String
+    spiritual: String
+    neutral: String
   }
 
   type Palette {

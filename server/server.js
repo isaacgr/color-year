@@ -8,6 +8,7 @@ const session = require("express-session");
 const { PrismaSessionStore } = require("@quixo3/prisma-session-store");
 
 const { Query } = require("./graphql/resolvers/Query");
+const Mutation = require("./graphql/resolvers/Mutation");
 const User = require("./graphql/resolvers/User");
 const typeDefs = require("./graphql/schema");
 
@@ -25,6 +26,7 @@ const server = new ApolloServer({
   typeDefs: typeDefs,
   resolvers: {
     Query,
+    Mutation,
     User
   },
   context: {

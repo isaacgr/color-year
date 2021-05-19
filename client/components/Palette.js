@@ -1,7 +1,9 @@
 import React, { useReducer, useEffect } from "react";
-import { useQuery, gql } from "@apollo/client";
+import { useQuery, gql, useMutation } from "@apollo/client";
 import PaletteNames from "./PaletteNames";
 import PaletteColors from "./PaletteColors";
+import colors from "../constants/colors";
+import invert from "../util/invert";
 
 const PALETTE_QUERY = gql`
   query PaletteQuery($userId: ID!) {
@@ -28,6 +30,23 @@ const PALETTE_QUERY = gql`
   }
 `;
 
+const SET_PALLETE_MUTATION = gql`
+  mutation SetPalette($userId: ID!, $paletteData: PaletteInput!) {
+    setPalette(userId: $userId, paletteData: $paletteData) {
+      joy
+      sadness
+      anger
+      fear
+      trust
+      jealous
+      surprise
+      anticipation
+      spiritual
+      neutral
+    }
+  }
+`;
+
 const initialState = {
   selectedFeeling: null,
   selectedColor: null,
@@ -40,10 +59,6 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedFeeling: action.value
-        // feelingToColor: {
-        //   ...state.feelingToColor,
-        //   [action.value]: state.selectedColor
-        // }
       };
     case "colorSelected":
       return {
@@ -71,6 +86,8 @@ const setPalette = (feeling, color) => {
   return { type: "setPalette", key: feeling, value: color };
 };
 
+// const hexToColor = inverted(colors);
+
 // Present the user with the palette selector
 // user must choose all colors, then submit to set the palette
 // redirect to /home after
@@ -81,14 +98,21 @@ export default function Palette({ userId }) {
     variables: { userId: userId },
     fetchPolicy: "no-cache"
   });
+  const [setPaletteData, mutationResult] = useMutation(SET_PALLETE_MUTATION);
+
   useEffect(() => {
     if (!data) {
       return;
     }
     for (const [key, value] of Object.entries(data.palette)) {
+      // const colorName = hexToColor[value];
+      if (key === "__typename") {
+        continue;
+      }
       dispatch(setPalette(key, value));
     }
   }, [data]);
+
   if (loading) return <h2 className="sub-title">Loading...</h2>;
   if (error) {
     console.log(error);
@@ -112,6 +136,30 @@ export default function Palette({ userId }) {
       <div className="palette">
         <PaletteNames data={data} state={state} dispatch={dispatch} />
         <PaletteColors data={data} state={state} dispatch={dispatch} />
+        <button
+          className={
+            mutationResult.error ? "btn btn-danger" : "btn btn-primary"
+          }
+          onClick={() =>
+            setPaletteData({
+              variables: {
+                userId,
+                paletteData: state.feelingToColor
+              }
+            })
+          }
+        >
+          <span
+            className={
+              mutationResult.loading
+                ? `${"spinner-border spinner-border-sm"}`
+                : ""
+            }
+            role="status"
+            aria-hidden="true"
+          ></span>
+          Save Palette
+        </button>
       </div>
     </div>
   );

@@ -2,8 +2,9 @@ import React from "react";
 
 export default function Login() {
   return (
-    <div className="container login-container">
-      <div className="card">
+    <div className="login-container">
+      <div className="login-background"></div>
+      <div className="card login-card">
         <h3 className="title">
           <i className="fas fa-palette icon"></i>ColorMyYear
         </h3>
