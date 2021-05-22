@@ -1,9 +1,9 @@
-import React, { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect, useState } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
 import PaletteNames from "./PaletteNames";
 import PaletteColors from "./PaletteColors";
-import colors from "../constants/colors";
-import invert from "../util/invert";
+import SavePalette from "./SavePalette";
+import NavBar from "./NavBar";
 
 const PALETTE_QUERY = gql`
   query PaletteQuery($userId: ID!) {
@@ -30,7 +30,7 @@ const PALETTE_QUERY = gql`
   }
 `;
 
-const SET_PALLETE_MUTATION = gql`
+const SET_PALLETE = gql`
   mutation SetPalette($userId: ID!, $paletteData: PaletteInput!) {
     setPalette(userId: $userId, paletteData: $paletteData) {
       joy
@@ -47,10 +47,17 @@ const SET_PALLETE_MUTATION = gql`
   }
 `;
 
+const SET_USER_PALETTE = gql`
+  mutation SetUserPalette($userId: ID!, $paletteSet: Boolean!) {
+    setUserPalette(userId: $userId, paletteSet: $paletteSet)
+  }
+`;
+
 const initialState = {
   selectedFeeling: null,
   selectedColor: null,
-  feelingToColor: {}
+  feelingToColor: {},
+  saveSuccess: false
 };
 
 const reducer = (state, action) => {
@@ -77,6 +84,11 @@ const reducer = (state, action) => {
           [action.key]: action.value
         }
       };
+    case "saveSuccess":
+      return {
+        ...state,
+        saveSuccess: action.value
+      };
     default:
       throw new Error();
   }
@@ -84,6 +96,10 @@ const reducer = (state, action) => {
 
 const setPalette = (feeling, color) => {
   return { type: "setPalette", key: feeling, value: color };
+};
+
+const setSaveSuccess = (success) => {
+  return { type: "saveSuccess", value: success };
 };
 
 // const hexToColor = inverted(colors);
@@ -98,7 +114,17 @@ export default function Palette({ userId }) {
     variables: { userId: userId },
     fetchPolicy: "no-cache"
   });
-  const [setPaletteData, mutationResult] = useMutation(SET_PALLETE_MUTATION);
+
+  const [setUserPalette] = useMutation(SET_USER_PALETTE);
+
+  const [setPaletteData, mutationResult] = useMutation(SET_PALLETE, {
+    onCompleted: () => {
+      dispatch(setSaveSuccess(true));
+      setTimeout(() => {
+        dispatch(setSaveSuccess(false));
+      }, 1000);
+    }
+  });
 
   useEffect(() => {
     if (!data) {
@@ -128,39 +154,32 @@ export default function Palette({ userId }) {
     );
   }
   return (
-    <div className="container">
-      <h1 className="title">Build Your Palette</h1>
-      <p className="sub-title">
-        Choose which colors best represent the moods below
-      </p>
-      <div className="palette">
-        <PaletteNames data={data} state={state} dispatch={dispatch} />
-        <PaletteColors data={data} state={state} dispatch={dispatch} />
-        <button
-          className={
-            mutationResult.error ? "btn btn-danger" : "btn btn-primary"
-          }
-          onClick={() =>
-            setPaletteData({
-              variables: {
-                userId,
-                paletteData: state.feelingToColor
-              }
-            })
-          }
-        >
-          <span
-            className={
-              mutationResult.loading
-                ? `${"spinner-border spinner-border-sm"}`
-                : ""
-            }
-            role="status"
-            aria-hidden="true"
-          ></span>
-          Save Palette
-        </button>
+    <>
+      <NavBar />
+
+      <div className="container">
+        <h1 className="title">Build Your Palette</h1>
+        <p className="sub-title">
+          Choose which colors best represent the moods below
+        </p>
+        <div className="palette">
+          <PaletteNames data={data} state={state} dispatch={dispatch} />
+          <PaletteColors data={data} state={state} dispatch={dispatch} />
+        </div>
+        <SavePalette
+          userId={userId}
+          paletteData={state.feelingToColor}
+          setPaletteData={setPaletteData}
+          mutationResult={mutationResult}
+          saveSuccess={state.saveSuccess}
+        />
+        {mutationResult.error && (
+          <h2
+            className="sub-title"
+            id="error"
+          >{`Unable to save palette. ${mutationResult.error.message}`}</h2>
+        )}
       </div>
-    </div>
+    </>
   );
 }

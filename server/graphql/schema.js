@@ -8,6 +8,7 @@ const typeDefs = gql`
 
   type Mutation {
     setPalette(userId: ID!, paletteData: PaletteInput!): Palette!
+    setUserPalette(userId: ID!, paletteSet: Boolean!): Boolean!
   }
 
   type User {

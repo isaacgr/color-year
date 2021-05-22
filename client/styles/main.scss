@@ -32,10 +32,7 @@ $prussian-blue: #1d3557ff;
 
 html,
 body {
-  // background-image: linear-gradient(#062c7f, #7fb0ff);
-  // background-color: $burnt-sienna;
   margin: 0;
-  height: 100%;
   width: 100%;
   background-repeat: no-repeat;
   background-position: bottom;
@@ -43,7 +40,7 @@ body {
 }
 
 .container {
-  width: 95%;
+  width: 100%;
   height: auto;
   margin: 1rem auto;
   padding-bottom: 1rem;
@@ -71,6 +68,31 @@ a:focus {
 
 .content-block--flex > * {
   margin: 0 1rem;
+}
+
+/*
+ ===============================
+ NavBar
+ ===============================
+ */
+
+.custom-nav {
+  background-color: $powder-blue;
+  box-shadow: 0 5px 5px 0 rgb(0 0 0 / 15%);
+  margin-bottom: 1rem;
+}
+
+.nav-icon {
+  color: $celadon-blue;
+  font-size: 30px;
+}
+
+.nav-container {
+  margin-bottom: 0;
+}
+
+#navbar-links {
+  justify-content: flex-end;
 }
 
 /*
@@ -136,9 +158,8 @@ a:focus {
 }
 
 .color-selector {
-  display: flex;
+  @extend %flex-stack;
   flex-direction: row;
-  justify-content: center;
   flex-wrap: wrap;
 }
 
@@ -151,11 +172,11 @@ a:focus {
 }
 
 .color-card {
+  @extend %flex-stack;
   height: 12.5rem;
   width: 9rem;
   margin: 0 0.2rem;
   background-color: #fff;
-  @extend %flex-stack;
   flex-direction: column;
   border-radius: 5px;
   cursor: pointer;
@@ -163,6 +184,21 @@ a:focus {
   &:hover {
     transform: translateY(-10px);
     box-shadow: 0 2px 12px #a3b2c2;
+  }
+}
+
+.save-button {
+  position: absolute;
+  margin-top: 5rem;
+  transform: translate(-50%, -50%);
+  left: 50%;
+  > span {
+    margin-right: 1rem;
+  }
+  transition: 0.4s ease all;
+  &:hover {
+    background-color: lighten($color: $prussian-blue, $amount: 25%);
+    color: #fff;
   }
 }
 
@@ -228,4 +264,14 @@ a:focus {
 
 #error {
   color: #c0392b;
+}
+
+/*
+ ===============================
+ Hidden Elements
+ ===============================
+ */
+
+.hidden {
+  display: none;
 }

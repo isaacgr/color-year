@@ -54,4 +54,30 @@ const getUser = async (data) => {
   }
 };
 
-module.exports = { createUser, getUser };
+const updatePaletteSet = async ({ userId, paletteSet }) => {
+  let userExists;
+  try {
+    userExists = await prisma.user.findUnique({
+      where: {
+        id: userId
+      }
+    });
+  } catch {
+    throw new UserNotFoundError(userId);
+  }
+  if (!userExists) {
+    throw new UserNotFoundError(userId);
+  } else {
+    const user = await prisma.user.update({
+      where: {
+        id: userId
+      },
+      data: {
+        palette_set: paletteSet
+      }
+    });
+    return user.palette_set;
+  }
+};
+
+module.exports = { createUser, getUser, updatePaletteSet };

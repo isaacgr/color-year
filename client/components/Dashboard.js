@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useQuery, gql } from "@apollo/client";
-import Palette from "./Palette";
+import { Redirect } from "react-router";
 
 // check if user has setup palette
 // if so, load the home page
@@ -38,6 +38,6 @@ export default function Dashboard({ userId }) {
       <h1>Dashboard</h1>
     </div>
   ) : (
-    <Palette userId={userId} />
+    <Redirect to="/palette" />
   );
 }
