@@ -24,6 +24,14 @@ $prussian-blue: #1d3557ff;
   justify-content: center;
 }
 
+%background {
+  position: absolute;
+  width: 100%;
+  height: 100vh;
+  background-position: bottom;
+  background-repeat: no-repeat;
+}
+
 /*
  ===============================
  Custom Syles
@@ -44,6 +52,7 @@ body {
   height: auto;
   margin: 1rem auto;
   padding-bottom: 1rem;
+  position: relative;
 }
 
 a {
@@ -104,7 +113,7 @@ a:focus {
 .title {
   color: #95a5a6;
   text-align: center;
-  font: 300 40px "Roboto", "Open Sans", "Helvetica Nue", sans-serif;
+  font: 300 40px "Lato", "Open Sans", "Helvetica Nue", sans-serif;
   font-weight: bold;
   letter-spacing: 2px;
   text-transform: capitalize;
@@ -120,6 +129,36 @@ a:focus {
   letter-spacing: 2px;
   text-transform: uppercase;
   margin: 1rem auto;
+}
+
+/*
+ ===============================
+ Login
+ ===============================
+ */
+
+.login-container {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.login-background {
+  @extend %background;
+  background: linear-gradient(
+    60deg,
+    rgba(84, 58, 183, 1) 0%,
+    rgba(0, 172, 193, 1) 100%
+  );
+}
+
+.login-card {
+  padding: 1rem;
+  width: 25rem;
+  text-align: center;
+  margin: 0 auto;
+  top: 10rem;
+  // box-shadow: 0 2px 12px #a3b2c2;
 }
 
 /*
@@ -149,10 +188,16 @@ a:focus {
     // border-color: var(--c-bg) !important;
     color: #f9f9f9;
     width: 100%;
+    transition: 0.4s ease all;
+    &:hover {
+      color: #f9f9f9;
+      transform: translateX(10px);
+      box-shadow: 0 2px 12px #a3b2c2;
+    }
 
     &:focus {
-      color: $celadon-blue;
-      border-color: $celadon-blue !important;
+      color: #f9f9f9;
+      box-shadow: 0 3px 20px $celadon-blue;
     }
   }
 }
@@ -204,6 +249,59 @@ a:focus {
 
 /*
  ===============================
+ Dashboard
+ ===============================
+ */
+
+.dashboard-background {
+  @extend %background;
+  background: linear-gradient(
+    60deg,
+    rgba(0, 0, 0, 1) 0%,
+    rgba(29, 53, 87, 1) 58%
+  );
+}
+
+/*
+ ===============================
+ Calendar
+ ===============================
+ */
+
+.day-box {
+  border: 3px solid #ffff;
+  border-radius: 10px;
+  width: 50%;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  backdrop-filter: blur(8px);
+  margin: 0 auto;
+}
+
+.day {
+  &--date {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #fff;
+  }
+
+  &--name,
+  &--number {
+    color: #fff;
+  }
+
+  &--color {
+    width: 100%;
+    height: 100%;
+    border-radius: 5px;
+  }
+}
+
+/*
+ ===============================
  SVG images
  ===============================
  */
@@ -215,6 +313,64 @@ a:focus {
   --c-skin: #ffb9b9;
 }
 
+.waves {
+  position: relative;
+  width: 100%;
+  height: 15vh;
+  margin-bottom: -7px; /*Fix for safari gap*/
+  min-height: 100px;
+  max-height: 150px;
+}
+
+.waves-container {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+}
+
+/* Animation */
+
+.parallax > use {
+  animation: move-forever 25s cubic-bezier(0.55, 0.5, 0.45, 0.5) infinite;
+}
+.parallax > use:nth-child(1) {
+  animation-delay: -2s;
+  animation-duration: 7s;
+}
+.parallax > use:nth-child(2) {
+  animation-delay: -3s;
+  animation-duration: 10s;
+}
+.parallax > use:nth-child(3) {
+  animation-delay: -4s;
+  animation-duration: 13s;
+}
+.parallax > use:nth-child(4) {
+  animation-delay: -5s;
+  animation-duration: 20s;
+}
+@keyframes move-forever {
+  0% {
+    transform: translate3d(-90px, 0, 0);
+  }
+  100% {
+    transform: translate3d(85px, 0, 0);
+  }
+}
+/*Shrinking for mobile*/
+@media (max-width: 768px) {
+  .waves {
+    height: 40px;
+    min-height: 40px;
+  }
+  .content {
+    height: 30vh;
+  }
+  h1 {
+    font-size: 24px;
+  }
+}
+
 /*
  ===============================
  Icons
@@ -223,37 +379,6 @@ a:focus {
 
 .icon {
   padding: 0 1rem;
-}
-
-/*
- ===============================
- Login
- ===============================
- */
-
-.login-container {
-  width: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.login-background {
-  position: absolute;
-  width: 100%;
-  height: 30rem;
-  background-image: url(https://static-cse.canva.com/_next/static/assets/wave.2881x801.e3004027281d91aea8440556fa84fbfd.png);
-  background-color: rgb(130, 63, 192);
-  background-position: bottom;
-  background-repeat: no-repeat;
-}
-
-.login-card {
-  padding: 1rem;
-  width: 25rem;
-  text-align: center;
-  margin: 0 auto;
-  top: 10rem;
-  box-shadow: 0 2px 12px #a3b2c2;
 }
 
 /*

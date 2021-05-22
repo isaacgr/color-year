@@ -24,15 +24,20 @@ router.get(
 );
 
 router.get("/user", ensureLoggedIn("/"), async (request, response) => {
-  const userId = await prisma.user.findUnique({
+  const user = await prisma.user.findUnique({
     where: {
       external_id: request.user
     },
     select: {
-      id: true
+      id: true,
+      palette_set: true
     }
   });
-  response.send({ authenticated: true, userId: userId.id });
+  response.send({
+    authenticated: true,
+    userId: user.id,
+    paletteSet: user.palette_set
+  });
 });
 
 module.exports = router;

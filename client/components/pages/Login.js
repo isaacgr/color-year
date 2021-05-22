@@ -1,4 +1,5 @@
 import React from "react";
+import Waves from "../../svg/components/Waves";
 
 export default function Login() {
   return (
@@ -23,6 +24,7 @@ export default function Login() {
           </a>
         </div>
       </div>
+      <Waves />
     </div>
   );
 }

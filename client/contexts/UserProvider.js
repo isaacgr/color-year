@@ -16,7 +16,8 @@ const UserProvider = ({ children }) => {
         const json = await res.json();
         setAuthenticated({
           authenticated: json.authenticated,
-          userId: json.userId
+          userId: json.userId,
+          paletteSet: json.paletteSet
         });
       }
     } catch (e) {

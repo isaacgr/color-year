@@ -10,7 +10,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
         {...rest}
         component={() =>
           auth.authenticated ? (
-            <Component userId={auth.userId} />
+            <Component userId={auth.userId} paletteSet={auth.paletteSet} />
           ) : (
             <Redirect to="/" />
           )

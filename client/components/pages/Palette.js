@@ -1,9 +1,9 @@
 import React, { useReducer, useEffect, useState } from "react";
 import { useQuery, gql, useMutation } from "@apollo/client";
-import PaletteNames from "./PaletteNames";
-import PaletteColors from "./PaletteColors";
-import SavePalette from "./SavePalette";
-import NavBar from "./NavBar";
+import PaletteNames from "../PaletteNames";
+import PaletteColors from "../PaletteColors";
+import SavePalette from "../SavePalette";
+import NavBar from "../NavBar";
 
 const PALETTE_QUERY = gql`
   query PaletteQuery($userId: ID!) {
@@ -158,10 +158,10 @@ export default function Palette({ userId }) {
       <NavBar />
 
       <div className="container">
-        <h1 className="title">Build Your Palette</h1>
+        {/* <h1 className="title">Build Your Palette</h1>
         <p className="sub-title">
           Choose which colors best represent the moods below
-        </p>
+        </p> */}
         <div className="palette">
           <PaletteNames data={data} state={state} dispatch={dispatch} />
           <PaletteColors data={data} state={state} dispatch={dispatch} />
