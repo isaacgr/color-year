@@ -12,6 +12,12 @@ $powder-blue: #a8dadcff;
 $celadon-blue: #457b9dff;
 $prussian-blue: #1d3557ff;
 
+$primary: #543ab7;
+$dark-accent: #b2405a;
+$light-accent: #7790b0;
+$dark-shades: #1f1520;
+$light-shades: #f4f7f4;
+
 /*
  ===============================
  Placeholders
@@ -51,7 +57,7 @@ body {
   width: 100%;
   height: auto;
   margin: 1rem auto;
-  padding-bottom: 1rem;
+  // padding-bottom: 1rem;
   position: relative;
 }
 
@@ -267,37 +273,95 @@ a:focus {
  Calendar
  ===============================
  */
-
-.day-box {
-  border: 3px solid #ffff;
-  border-radius: 10px;
-  width: 50%;
-  height: 50%;
-  display: flex;
-  flex-direction: column;
-  backdrop-filter: blur(8px);
+.calendar {
+  font-family: "Quicksand";
+  text-transform: uppercase;
+  width: 45rem;
+  height: 52rem;
+  background-color: #222227;
+  box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
+  color: #fff;
   margin: 0 auto;
+  border-radius: 10px;
 }
 
-.day {
-  &--date {
+.month {
+  width: 100%;
+  height: 12rem;
+  background-color: #167e56;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 2rem;
+  text-align: center;
+  text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 10px 10px 0 0;
+
+  > i {
+    font-size: 2.5rem;
+    cursor: pointer;
+  }
+  > h1 {
+    font-size: 3rem;
+    font-weight: 400;
+    text-transform: uppercase;
+    letter-spacing: 0.2rem;
+    margin-bottom: 1rem;
+  }
+  > p {
+    font-size: 1.6rem;
+  }
+}
+
+.weekdays {
+  width: 100%;
+  height: 5rem;
+  padding: 0 0.4rem;
+  display: flex;
+  align-items: center;
+
+  > div {
+    font-size: 1.5rem;
+    font-weight: 400;
+    letter-spacing: 0.1rem;
+    width: calc(44.2rem / 7);
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 1rem;
-    border-bottom: 1px solid #fff;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
   }
+}
 
-  &--name,
-  &--number {
-    color: #fff;
+.days {
+  width: 100%;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0.2rem;
+  > div {
+    font-size: 1.4rem;
+    margin: 0.3rem;
+    width: calc(40.2rem / 7);
+    height: 5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
+    transition: background-color 0.2s;
+    &:hover {
+      background-color: #262626;
+      border: 0.2rem colid #777;
+      cursor: pointer;
+    }
   }
+}
 
-  &--color {
-    width: 100%;
-    height: 100%;
-    border-radius: 5px;
-  }
+.prev-date,
+.next-date {
+  opacity: 0.5;
+}
+
+.today {
+  border: 1px solid #167e56;
 }
 
 /*
