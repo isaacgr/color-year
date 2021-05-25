@@ -11,8 +11,8 @@ export default function NavBar() {
           className="navbar-toggler"
           type="button"
           data-mdb-toggle="collapse"
-          data-mdb-target="#navbarButtonsExample"
-          aria-controls="navbarButtonsExample"
+          data-mdb-target="#navbar-links"
+          aria-controls="navbar-links"
           aria-expanded="false"
           aria-label="Toggle navigation"
         >

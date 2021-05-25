@@ -92,22 +92,29 @@ a:focus {
  */
 
 .custom-nav {
-  background-color: $powder-blue;
+  background-color: $light-accent;
   box-shadow: 0 5px 5px 0 rgb(0 0 0 / 15%);
   margin-bottom: 1rem;
+  justify-content: center;
 }
 
 .nav-icon {
-  color: $celadon-blue;
+  color: $light-shades;
   font-size: 30px;
 }
 
 .nav-container {
-  margin-bottom: 0;
+  margin: 0 1rem;
 }
 
 #navbar-links {
   justify-content: flex-end;
+  > a {
+    color: $light-shades;
+    &:hover {
+      color: $light-accent;
+    }
+  }
 }
 
 /*
@@ -192,18 +199,18 @@ a:focus {
     }
     // background-color: var(--c-bg) !important;
     // border-color: var(--c-bg) !important;
-    color: #f9f9f9;
+    color: $light-shades;
     width: 100%;
     transition: 0.4s ease all;
     &:hover {
-      color: #f9f9f9;
+      color: $light-shades;
       transform: translateX(10px);
-      box-shadow: 0 2px 12px #a3b2c2;
+      box-shadow: 0 2px 12px $light-accent;
     }
 
     &:focus {
-      color: #f9f9f9;
-      box-shadow: 0 3px 20px $celadon-blue;
+      color: $light-shades;
+      box-shadow: 0 3px 20px $light-accent;
     }
   }
 }
@@ -234,7 +241,7 @@ a:focus {
   transition: 0.4s ease all;
   &:hover {
     transform: translateY(-10px);
-    box-shadow: 0 2px 12px #a3b2c2;
+    box-shadow: 0 2px 12px $light-accent;
   }
 }
 
@@ -248,7 +255,7 @@ a:focus {
   }
   transition: 0.4s ease all;
   &:hover {
-    background-color: lighten($color: $prussian-blue, $amount: 25%);
+    background-color: lighten($color: $light-accent, $amount: 25%);
     color: #fff;
   }
 }
@@ -261,11 +268,12 @@ a:focus {
 
 .dashboard-background {
   @extend %background;
-  background: linear-gradient(
-    60deg,
-    rgba(0, 0, 0, 1) 0%,
-    rgba(29, 53, 87, 1) 58%
-  );
+  // background: linear-gradient(
+  //   60deg,
+  //   rgba(0, 0, 0, 1) 0%,
+  //   rgba(29, 53, 87, 1) 58%
+  // );
+  background-color: $light-shades;
 }
 
 /*
@@ -278,9 +286,9 @@ a:focus {
   text-transform: uppercase;
   width: 45rem;
   height: 52rem;
-  background-color: #222227;
+  background-color: $dark-shades;
   box-shadow: 0 0.5rem 3rem rgba(0, 0, 0, 0.4);
-  color: #fff;
+  color: $light-shades;
   margin: 0 auto;
   border-radius: 10px;
 }
@@ -288,7 +296,7 @@ a:focus {
 .month {
   width: 100%;
   height: 12rem;
-  background-color: #167e56;
+  background-color: $dark-accent;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -311,6 +319,10 @@ a:focus {
   > p {
     font-size: 1.6rem;
   }
+}
+
+.date {
+  cursor: pointer;
 }
 
 .weekdays {
@@ -348,7 +360,7 @@ a:focus {
     text-shadow: 0 0.3rem 0.5rem rgba(0, 0, 0, 0.5);
     transition: background-color 0.2s;
     &:hover {
-      background-color: #262626;
+      background-color: lighten($color: $dark-shades, $amount: 50%);
       border: 0.2rem colid #777;
       cursor: pointer;
     }
@@ -361,7 +373,7 @@ a:focus {
 }
 
 .today {
-  border: 1px solid #167e56;
+  border: 1px solid $dark-accent;
 }
 
 /*

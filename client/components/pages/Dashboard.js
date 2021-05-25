@@ -11,9 +11,8 @@ import Calendar from "../calendar/Calendar";
 export default function Dashboard({ userId, paletteSet }) {
   return paletteSet ? (
     <>
-      <div className="dashboard-background"></div>
-
       <NavBar />
+      <div className="dashboard-background"></div>
       <div className="container">
         <Calendar />
       </div>
