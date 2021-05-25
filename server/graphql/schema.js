@@ -31,6 +31,7 @@ const typeDefs = gql`
   }
 
   type Palette {
+    id: ID!
     joy: String
     sadness: String
     anger: String

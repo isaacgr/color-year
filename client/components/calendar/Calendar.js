@@ -75,7 +75,7 @@ export default function Calendar() {
   const nextDays = 7 - lastDayIndex - 1;
 
   return (
-    <div className="calendar">
+    <>
       <div className="month">
         <i
           className="fa fa-angle-left prev"
@@ -94,45 +94,50 @@ export default function Calendar() {
           }}
         ></i>
       </div>
-      <div className="weekdays">
-        {days.map((day) => (
-          <div key={day}>{day}</div>
-        ))}
+      <div className="table-responsive-md">
+        <table className="table">
+          <tr className="weekdays">
+            {days.map((day) => (
+              <th key={day}>{day}</th>
+            ))}
+          </tr>
+
+          <tr className="days">
+            {[...Array(firstDayIndex).keys()]
+              .slice(0)
+              .reverse()
+              .map((day) => {
+                return (
+                  <td key={day} className="prev-date">
+                    {prevLastDay - day}
+                  </td>
+                );
+              })}
+            {[...Array(lastDay).keys()].map((day) => {
+              return (
+                <td
+                  key={day}
+                  className={`${
+                    day + 1 === new Date().getDate() &&
+                    state.date.getMonth() === new Date().getMonth() &&
+                    state.date.getFullYear() === new Date().getFullYear() &&
+                    "today"
+                  }`}
+                >
+                  {day + 1}
+                </td>
+              );
+            })}
+            {[...Array(nextDays).keys()].map((day) => {
+              return (
+                <td key={day} className="next-date">
+                  {day + 1}
+                </td>
+              );
+            })}
+          </tr>
+        </table>
       </div>
-      <div className="days">
-        {[...Array(firstDayIndex).keys()]
-          .slice(0)
-          .reverse()
-          .map((day) => {
-            return (
-              <div key={day} className="prev-date">
-                {prevLastDay - day}
-              </div>
-            );
-          })}
-        {[...Array(lastDay).keys()].map((day) => {
-          return (
-            <div
-              key={day}
-              className={`${
-                day + 1 === new Date().getDate() &&
-                state.date.getMonth() === new Date().getMonth() &&
-                state.date.getFullYear() === new Date().getFullYear() &&
-                "today"
-              }`}
-            >
-              {day + 1}
-            </div>
-          );
-        })}
-        {[...Array(nextDays).keys()].map((day) => {
-          return (
-            <div key={day} className="next-date">
-              {day + 1}
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    </>
   );
 }

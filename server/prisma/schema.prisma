@@ -19,6 +19,7 @@ model user {
   external_id   String    @unique @db.VarChar(64)
   created_at    DateTime? @default(now()) @db.Timestamp(6)
   palette_set   Boolean   @default(false)
+  calendar      calendar?
   palette       palette?
 }
 
@@ -43,4 +44,12 @@ model session {
   sid       String   @unique
   data      String
   expiresAt DateTime @db.Timestamp(6)
+}
+
+model calendar {
+  id      Int      @id @default(autoincrement())
+  user_id String   @unique @db.Uuid
+  date    DateTime @db.Timestamp(6)
+  value   String   @db.VarChar(255)
+  user    user     @relation(fields: [user_id], references: [id])
 }
