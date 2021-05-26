@@ -1,4 +1,5 @@
 import React, { useState, useReducer } from "react";
+import PaletteModal from "./PaletteModal";
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -29,13 +30,34 @@ const reducer = (state, action) => {
         ...state,
         date: action.value
       };
+    case "showModal":
+      return {
+        ...state,
+        showModal: action.value
+      };
+    case "feelingSelected":
+      return {
+        ...state,
+        selectedFeeling: action.value
+      };
+    case "setPalette":
+      return {
+        ...state,
+        feelingToColor: {
+          ...state.feelingToColor,
+          [action.key]: action.value
+        }
+      };
     default:
       throw new Error("Invalid case");
   }
 };
 
 const initialState = {
-  date: new Date()
+  date: new Date(),
+  showModal: false,
+  selectedFeeling: null,
+  feelingToColor: {}
 };
 
 const setMonth = (state, month) => {
@@ -52,7 +74,11 @@ const setToday = () => {
   return { type: "setToday", value: newDate };
 };
 
-export default function Calendar() {
+const toggleModal = (showModal) => {
+  return { type: "showModal", value: showModal };
+};
+
+export default function Calendar({ userId }) {
   const [state, dispatch] = useReducer(reducer, initialState);
   state.date.setDate(1);
   const month = state.date.getMonth();
@@ -76,6 +102,13 @@ export default function Calendar() {
 
   return (
     <>
+      <PaletteModal
+        userId={userId}
+        feelingToColor={state.feelingToColor}
+        dispatch={dispatch}
+        showModal={state.showModal}
+        handleCloseModal={() => dispatch(toggleModal(false))}
+      />
       <div className="month">
         <i
           className="fa fa-angle-left prev"
@@ -123,6 +156,7 @@ export default function Calendar() {
                     state.date.getFullYear() === new Date().getFullYear() &&
                     "today"
                   }`}
+                  onClick={() => dispatch(toggleModal(true))}
                 >
                   {day + 1}
                 </td>

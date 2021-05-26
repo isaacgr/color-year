@@ -5,7 +5,7 @@ const colorSelected = (color) => {
   return { type: "colorSelected", value: color };
 };
 
-export default function PaletteColors({ data, state, dispatch }) {
+export default function PaletteColors({ dispatch }) {
   return (
     <div className="color-selector">
       {colors.map((color) => {
@@ -13,7 +13,6 @@ export default function PaletteColors({ data, state, dispatch }) {
           <div key={color} className="card color-card">
             <div
               className="canvas"
-              // style={{ "--c-bg": `var(${color})` }}
               style={{ background: color }}
               onClick={(e) => {
                 dispatch(colorSelected(e.target.id));

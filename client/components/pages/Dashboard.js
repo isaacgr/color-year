@@ -13,7 +13,7 @@ export default function Dashboard({ userId, paletteSet }) {
     <div className="dashboard">
       <NavBar />
       <div className="container">
-        <Calendar />
+        <Calendar userId={userId} />
       </div>
     </div>
   ) : (
