@@ -90,7 +90,7 @@ export default function Palette({ userId }) {
   return (
     <>
       <NavBar />
-      <div className="container">
+      <div className="container container--content">
         <div className="palette">
           <PaletteNames
             userId={userId}

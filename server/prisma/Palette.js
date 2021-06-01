@@ -1,53 +1,19 @@
 const { PrismaClient } = require("@prisma/client");
-const { PaletteNotFoundError, UpdatePaletteError } = require("../types/error");
+const { NotFoundError, UpdateError, CreateError } = require("../types/error");
 
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  rejectOnNotFound: true
+});
 
 const createPalette = async (data) => {
-  let paletteExists;
   try {
-    paletteExists = await prisma.palette.findUnique({
-      where: {
-        user_id: data.user_id
-      }
-    });
-  } catch (e) {
-    throw new PaletteNotFoundError(data.user_id);
-  }
-  if (!paletteExists) {
-    return await prisma.palette.create({
-      data
-    });
-  } else {
     return await prisma.palette.findUnique({
       where: {
         user_id: data.user_id
       }
     });
-  }
-};
-
-const updatePalette = async ({ userId, paletteData }) => {
-  try {
-    await prisma.palette.findUnique({
-      where: {
-        user_id: userId
-      }
-    });
-  } catch {
-    throw new PaletteNotFoundError(userId);
-  }
-  try {
-    return await prisma.palette.update({
-      where: {
-        user_id: userId
-      },
-      data: {
-        ...paletteData
-      }
-    });
   } catch (e) {
-    throw UpdatePaletteError(userId, e.message);
+    throw new CreateError(data.user_id, "User not found");
   }
 };
 
@@ -59,7 +25,31 @@ const getPalette = async (userId) => {
       }
     });
   } catch {
-    throw new PaletteNotFoundError(userId);
+    throw new NotFoundError(userId, "User not found");
+  }
+};
+
+const updatePalette = async ({ userId, paletteData }) => {
+  try {
+    await prisma.palette.findUnique({
+      where: {
+        user_id: userId
+      }
+    });
+  } catch {
+    throw new NotFoundError(userId);
+  }
+  try {
+    return await prisma.palette.update({
+      where: {
+        user_id: userId
+      },
+      data: {
+        ...paletteData
+      }
+    });
+  } catch (e) {
+    throw UpdateError(userId, e.message);
   }
 };
 

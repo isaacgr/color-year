@@ -1,5 +1,6 @@
-import React, { useState, useReducer } from "react";
+import React, { useEffect, useReducer } from "react";
 import PaletteModal from "./PaletteModal";
+import ViewButtons from "./ViewButtons";
 
 const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
@@ -38,7 +39,17 @@ const reducer = (state, action) => {
     case "feelingSelected":
       return {
         ...state,
-        selectedFeeling: action.value
+        showModal: false,
+        selectedFeeling: action.value,
+        dayToColor: {
+          ...state.dayToColor,
+          [state.selectedDay]: state.feelingToColor[action.value]
+        }
+      };
+    case "setCalendarDay":
+      return {
+        ...state,
+        selectedDay: action.value
       };
     case "setPalette":
       return {
@@ -57,7 +68,9 @@ const initialState = {
   date: new Date(),
   showModal: false,
   selectedFeeling: null,
-  feelingToColor: {}
+  feelingToColor: {},
+  selectedDay: null,
+  dayToColor: {}
 };
 
 const setMonth = (state, month) => {
@@ -74,12 +87,24 @@ const setToday = () => {
   return { type: "setToday", value: newDate };
 };
 
+const setCalendarDaySelected = (day) => {
+  return { type: "setCalendarDay", value: day };
+};
+
 const toggleModal = (showModal) => {
   return { type: "showModal", value: showModal };
 };
 
 export default function Calendar({ userId }) {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    if (!state.dayToColor[state.selectedDay]) {
+      return;
+    }
+    console.log(state.dayToColor[state.selectedDay]);
+  }, [state.dayToColor[state.selectedDay]]);
+
   state.date.setDate(1);
   const month = state.date.getMonth();
   const firstDayIndex = state.date.getDay();
@@ -109,6 +134,7 @@ export default function Calendar({ userId }) {
         showModal={state.showModal}
         handleCloseModal={() => dispatch(toggleModal(false))}
       />
+      <ViewButtons />
       <div className="month">
         <i
           className="fa fa-angle-left prev"
@@ -127,7 +153,7 @@ export default function Calendar({ userId }) {
           }}
         ></i>
       </div>
-      <div className="table-responsive-md">
+      <div className="table-responsive-md calendar-dates">
         <table className="table">
           <tr className="weekdays">
             {days.map((day) => (
@@ -150,13 +176,27 @@ export default function Calendar({ userId }) {
               return (
                 <td
                   key={day}
+                  data-value={`${state.date.getFullYear()}${
+                    state.date.getMonth() + 1
+                  }${day + 1}`}
+                  style={{
+                    backgroundColor:
+                      state.dayToColor[
+                        `${state.date.getFullYear()}${
+                          state.date.getMonth() + 1
+                        }${day + 1}`
+                      ]
+                  }}
                   className={`${
                     day + 1 === new Date().getDate() &&
                     state.date.getMonth() === new Date().getMonth() &&
                     state.date.getFullYear() === new Date().getFullYear() &&
                     "today"
                   }`}
-                  onClick={() => dispatch(toggleModal(true))}
+                  onClick={(e) => {
+                    dispatch(setCalendarDaySelected(e.target.dataset.value));
+                    dispatch(toggleModal(true));
+                  }}
                 >
                   {day + 1}
                 </td>

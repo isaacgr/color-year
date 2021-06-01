@@ -9,6 +9,7 @@ const typeDefs = gql`
   type Mutation {
     setPalette(userId: ID!, paletteData: PaletteInput!): Palette!
     setUserPalette(userId: ID!, paletteSet: Boolean!): Boolean!
+    setDayColor(userId: ID!, date: String!, value: String!): Date!
   }
 
   type User {
@@ -17,7 +18,7 @@ const typeDefs = gql`
     palette: Palette
   }
 
-  input PaletteInput {
+  type Palette {
     joy: String
     sadness: String
     anger: String
@@ -30,7 +31,13 @@ const typeDefs = gql`
     neutral: String
   }
 
-  type Palette {
+  type Date {
+    userId: ID!
+    date: String!
+    value: String!
+  }
+
+  input PaletteInput {
     joy: String
     sadness: String
     anger: String

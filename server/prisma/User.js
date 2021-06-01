@@ -1,5 +1,5 @@
 const { PrismaClient } = require("@prisma/client");
-const { UserNotFoundError, InvalidUserIdError } = require("../types/error");
+const { NotFoundError, CreateError, UpdateError } = require("../types/error");
 
 const prisma = new PrismaClient();
 
@@ -12,7 +12,7 @@ const createUser = async (data) => {
       }
     });
   } catch {
-    throw new InvalidUserIdError(data.external_id);
+    throw new CreateError(data.external_id);
   }
   if (!userExists) {
     return await prisma.user.create({
@@ -36,11 +36,11 @@ const getUser = async (data) => {
       }
     });
   } catch {
-    throw new UserNotFoundError(data.id);
+    throw new NotFoundError(data.id);
   }
 
   if (!userExists) {
-    throw new UserNotFoundError(data.id);
+    throw new UpdateError(userId);
   } else {
     return await prisma.user.findUnique({
       where: {
@@ -63,10 +63,10 @@ const updatePaletteSet = async ({ userId, paletteSet }) => {
       }
     });
   } catch {
-    throw new UserNotFoundError(userId);
+    throw new NotFoundError(userId);
   }
   if (!userExists) {
-    throw new UserNotFoundError(userId);
+    throw new UpdateError(userId, "User not found");
   } else {
     const user = await prisma.user.update({
       where: {

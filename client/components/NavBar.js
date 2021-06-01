@@ -20,12 +20,15 @@ export default function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbar-links">
           <a className="btn btn-link px-3 me-2" type="button" href="/dashboard">
+            <i className="far fa-calendar nav-icon"></i>
             Dashboard
           </a>
           <a className="btn btn-link px-3 me-2" type="button" href="/palette">
+            <i className="fas fa-palette nav-icon"></i>
             Palette
           </a>
           <a href="/logout" type="button" className="btn btn-link px-3 me-2">
+            <i className="fas fa-sign-out-alt nav-icon"></i>
             Logout
           </a>
         </div>

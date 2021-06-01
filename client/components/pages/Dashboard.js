@@ -10,12 +10,14 @@ import Calendar from "../calendar/Calendar";
 
 export default function Dashboard({ userId, paletteSet }) {
   return paletteSet ? (
-    <div className="dashboard">
+    <>
       <NavBar />
-      <div className="container">
-        <Calendar userId={userId} />
+      <div className="container container--content">
+        <div className="dashboard">
+          <Calendar userId={userId} />
+        </div>
       </div>
-    </div>
+    </>
   ) : (
     <Redirect to="/palette" />
   );

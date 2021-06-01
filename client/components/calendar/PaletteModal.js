@@ -16,17 +16,6 @@ export default function PaletteModal({
       onRequestClose={handleCloseModal}
       shouldCloseOnOverlayClick={true}
       className="modal"
-      // style={{
-      //   content: {
-      //     display: "flex",
-      //     justifyContent: "center",
-      //     alignItems: "center",
-      //     margin: "0 auto",
-      //     width: "30%",
-      //     flexDirection: "column",
-      //     borderRadius: "10px"
-      //   }
-      // }}
     >
       <h1 className="sub-title">Choose a color to represent today</h1>
       <PaletteNames

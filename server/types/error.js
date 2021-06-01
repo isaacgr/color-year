@@ -1,55 +1,41 @@
-class UserNotFoundError extends Error {
+class NotFoundError extends Error {
   constructor(id, ...params) {
     super(...params);
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, UserNotFoundError);
+      Error.captureStackTrace(this, NotFoundError);
     }
-    this.name = "UserNotFoundError";
+    this.name = "NotFoundError";
     this.id = id;
-    this.message = `User does not exist. ID [${this.id}]`;
+    this.message = `Resource not found. ID [${this.id}]`;
     this.date = new Date();
   }
 }
 
-class PaletteNotFoundError extends Error {
+class CreateError extends Error {
   constructor(id, ...params) {
     super(...params);
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, PaletteNotFoundError);
+      Error.captureStackTrace(this, CreateError);
     }
-    this.name = "PaletteNotFoundError";
+    this.name = "CreateError";
     this.id = id;
-    this.message = `Palette not found for user. ID [${this.id}]`;
+    this.message = `Unable to create resource. ID [${this.id}]. Error [${this.message}]`;
     this.date = new Date();
   }
 }
 
-class CreatePaletteError extends Error {
+class UpdateError extends Error {
   constructor(id, ...params) {
     super(...params);
     // Maintains proper stack trace for where our error was thrown (only available on V8)
     if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, CreatePaletteError);
+      Error.captureStackTrace(this, UpdateError);
     }
-    this.name = "CreatePaletteError";
+    this.name = "UpdateError";
     this.id = id;
-    this.message = `Unable to create palette for user. ID [${this.id}]. Error [${this.message}]`;
-    this.date = new Date();
-  }
-}
-
-class UpdatePaletteError extends Error {
-  constructor(id, ...params) {
-    super(...params);
-    // Maintains proper stack trace for where our error was thrown (only available on V8)
-    if (Error.captureStackTrace) {
-      Error.captureStackTrace(this, UpdatePaletteError);
-    }
-    this.name = "UpdatePaletteError";
-    this.id = id;
-    this.message = `Unable to update palette for user. ID [${this.id}]. Error [${this.message}]`;
+    this.message = `Unable to update resource. ID [${this.id}]. Error [${this.message}]`;
     this.date = new Date();
   }
 }
@@ -69,9 +55,8 @@ class InvalidUserIdError extends Error {
 }
 
 module.exports = {
-  UserNotFoundError,
+  NotFoundError,
   InvalidUserIdError,
-  PaletteNotFoundError,
-  CreatePaletteError,
-  UpdatePaletteError
+  UpdateError,
+  CreateError
 };
