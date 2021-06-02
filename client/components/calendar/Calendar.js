@@ -176,9 +176,9 @@ export default function Calendar({ userId }) {
               return (
                 <td
                   key={day}
-                  data-value={`${state.date.getFullYear()}${
+                  data-value={`${state.date.getFullYear()}-${
                     state.date.getMonth() + 1
-                  }${day + 1}`}
+                  }-${day + 1}`}
                   style={{
                     backgroundColor:
                       state.dayToColor[

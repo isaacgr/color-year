@@ -1,31 +1,27 @@
 const { PrismaClient } = require("@prisma/client");
-const { NotFoundError, UpdateError } = require("../types/error");
+const { NotFoundError, CreateError } = require("../types/error");
 
 const prisma = new PrismaClient({
   rejectOnNotFound: true
 });
 
-const createDate = async (data) => {
-  let dateExists;
+const upsertDate = async ({ userId, date, value }) => {
   try {
-    dateExists = await prisma.calendar.findUnique({
+    return await prisma.calendar.upsert({
       where: {
-        user_id: data.user_id
+        calendar_user_id_date_key: { user_id: userId, date: new Date(date) }
+      },
+      create: {
+        user_id: userId,
+        date: new Date(date),
+        value
+      },
+      update: {
+        value
       }
     });
   } catch (e) {
-    throw new NotFoundError(data.user_id);
-  }
-  if (!dateExists) {
-    return await prisma.calendar.create({
-      data
-    });
-  } else {
-    return await prisma.calendar.findUnique({
-      where: {
-        user_id: data.user_id
-      }
-    });
+    throw new CreateError(userId, e.message);
   }
 };
 
@@ -41,9 +37,9 @@ const getDate = async (userId) => {
   }
 };
 
-const updateDate = async ({ userId, paletteData }) => {
+const getDates = async (userId) => {
   try {
-    await prisma.calendar.findUnique({
+    return await prisma.calendar.findMany({
       where: {
         user_id: userId
       }
@@ -51,22 +47,10 @@ const updateDate = async ({ userId, paletteData }) => {
   } catch {
     throw new NotFoundError(userId);
   }
-  try {
-    return await prisma.calendar.update({
-      where: {
-        user_id: userId
-      },
-      data: {
-        ...paletteData
-      }
-    });
-  } catch (e) {
-    throw UpdateError(userId, e.message);
-  }
 };
 
 module.exports = {
-  createDate,
+  upsertDate,
   getDate,
-  updateDate
+  getDates
 };
