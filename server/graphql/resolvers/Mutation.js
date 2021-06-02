@@ -1,5 +1,6 @@
 const { updatePalette } = require("../../prisma/Palette");
 const { updatePaletteSet } = require("../../prisma/User");
+const { upsertDate } = require("../../prisma/Calendar");
 
 const Mutation = {
   setPalette: async (parent, args, context) => {
@@ -7,6 +8,9 @@ const Mutation = {
   },
   setUserPalette: async (parent, args, context) => {
     return updatePaletteSet(args);
+  },
+  setDayColor: async (parent, args, context) => {
+    return upsertDate(args);
   }
 };
 
